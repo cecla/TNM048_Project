@@ -34,8 +34,6 @@ function piePop(){
 	d3.csv("data/Swedish_Population_Statistics.csv", function(data) {
 		
 		
-		self.data = data;
-
 		var temp = d3.nest()
 			.key(function(d){
 				return d.region;
@@ -46,11 +44,17 @@ function piePop(){
 			.rollup(function(v){ return d3.sum(v, function(d){return d["2010"]; })})
 			.entries(data);
 
-		draw(temp[0].values);
+		console.log(temp);
+
+		self.data = temp;
+
+		//draw(temp[0].values);
 		
     });
 
     function draw(population){
+    	console.log(population);
+    	
     	var g = svg.selectAll(".arc")
 		.data(pie(population))
 		.enter().append("g")
@@ -80,4 +84,20 @@ function piePop(){
 		
 		return d;
 	}*/
+
+	this.selectRegion = function(value){
+		console.log(value);
+		
+		var index = 0;
+		var temp = [];
+        
+		index = self.data.findIndex(function(x,i){ if(x.key==value){ return i; } });
+		
+		temp = self.data[index];
+		
+		svg.selectAll(".arc").remove();
+		
+		draw(temp.values);
+				
+	}
 }

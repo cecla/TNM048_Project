@@ -112,6 +112,7 @@ function map(data){
 			})
 			.on("click", function(d){
 				pie1.selectRegion(d.properties.region);
+				piepop.selectRegion(d.properties.region);
 			});
 	}
 

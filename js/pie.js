@@ -44,7 +44,7 @@ function pie(){
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
-		.attr("transform", "translate(" + width / 4 + "," + height / 4 + ")");
+		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 	
 	d3.csv("data/Swedish_Election_2010.csv", type, function(data) {
