@@ -19,6 +19,7 @@ function pie(){
 		"ogiltiga valsedlar":"#A9A9A9"
 	};
 	
+<<<<<<< HEAD
 	var parties = 
 	{
 		"Socialdemokraterna":"S", 
@@ -37,6 +38,7 @@ function pie(){
 	var width = pieDiv.width(),
 		height = 500,
 		radius = Math.min(width, height) / 4;
+
 		
 	var toolTip = d3.select("body").append("div")   
         .attr("class", "tooltip")               
@@ -55,7 +57,7 @@ function pie(){
 		.sort(null)
 		.value(function(d) { return d["Year=2010"]; });
 
-	var svg = d3.select("body").append("svg")
+	var svg = d3.select("#pie1").append("svg")
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
@@ -63,10 +65,8 @@ function pie(){
 
 	
 	d3.csv("data/Swedish_Election_2010.csv", type, function(data) {
-		
 
-		var test = []; // array för att spara alla städer och information i
-		
+		var test = []; // array f?r att spara alla st?der och information i
 
 		test = d3.nest()
 		.key(function(d){

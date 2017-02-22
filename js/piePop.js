@@ -7,7 +7,7 @@ function piePop(){
 
 	var height = pieDiv.height(),
 		width = pieDiv.width(),
-		radius = Math.min(width, Math.abs(height)) / 4;
+		radius = Math.max(width, Math.abs(height)) / 4;
 
 	var toolTip = d3.select("body").append("div")   
         .attr("class", "tooltip")               
@@ -25,7 +25,7 @@ function piePop(){
 		.sort(null)
 		.value(function(d) { console.log(d); return d.values; });
 
-	var svg = d3.select("body").append("svg")
+	var svg = d3.select("#piepop").append("svg")
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
