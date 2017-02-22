@@ -18,8 +18,7 @@ function pie(){
 		"ej röstande":"#000000", 
 		"ogiltiga valsedlar":"#A9A9A9"
 	};
-	
-<<<<<<< HEAD
+
 	var parties = 
 	{
 		"Socialdemokraterna":"S", 
