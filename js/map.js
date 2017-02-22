@@ -36,6 +36,7 @@ function map(data){
 
 	self.data = data;
 
+	//for each region, find the party with highest votes
 	d3.nest()
 		.key(function(d){ return d.region; })
 		.entries(self.data)
@@ -52,6 +53,7 @@ function map(data){
 			regionParties.push(array.values[j]);
 		});
 
+	//count how many parties there is. Only for coloring purpose
 	d3.nest()
 		.key(function(d){ return d.party; })
 		.entries(self.data)
@@ -68,10 +70,11 @@ function map(data){
 
 		var regions = topojson.feature(swe, swe.objects.swe_mun).features;
 
+		//make the connection between the map data and the election data
 		regions.map(function(d){
 			regionParties.forEach(function(q){
 				if(q.region.includes(d.properties.name)){
-					//console.log(color(numberOfParties.indexOf(q.party)));
+					d.properties.region = q.region;
 					d.properties.party = q.party;
 					d.properties.color = color(numberOfParties.indexOf(q.party));
 				}
@@ -88,8 +91,7 @@ function map(data){
 		region.enter().insert("path")
 			.attr("class", "regions")
 			.attr("d", path)
-			//.attr("id", function(d){ return d.id; })
-			.style("fill", function(d){ /*console.log(d.properties.color);*/ return d.properties.color; })
+			.style("fill", function(d){ return d.properties.color; })
 			.on("mousemove", function(d,i) {
 				var currentRegion = this;
 				
@@ -105,6 +107,9 @@ function map(data){
 			})
 			.on("mouseout", function(d,i){
 				
+			})
+			.on("click", function(d){
+				pie1.selectRegion(d.properties.region);
 			});
 	}
 
