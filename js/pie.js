@@ -19,7 +19,6 @@ function pie(){
 		"ogiltiga valsedlar":"#A9A9A9"
 	};
 	
-	
 	var height = pieDiv.height(),
 		width = pieDiv.width(),
 		radius = Math.max(width, Math.abs(height)) / 4;
@@ -45,40 +44,23 @@ function pie(){
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
-		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+		.attr("transform", "translate(" + width / 4 + "," + height / 4 + ")");
 
 	
 	d3.csv("data/Swedish_Election_2010.csv", type, function(data) {
-		
-		
-		self.data = data;
-		
+
 		var test = []; // array f?r att spara alla st?der och information i
-		var temp = [];
-		
-	
-	
+
 		test = d3.nest()
 		.key(function(d){
 			return d.region;})
 		.entries(data);
 			
-		
-		
+
 		test.keys = _.values(test);
 		
-		
-		city = "2583 Haparanda";
-		
-		var index = 0;
-		
-		//index = test.indexOf(city);
-		
-		index = test.findIndex(function(x,i){ if(x.key==city){ return i; } });
-		
-		temp = test[index];
-		
-        draw(temp.values);
+		self.data = test;
+
     });
 	
 
@@ -93,7 +75,7 @@ function pie(){
 
 		g.append("path")
 		.attr("d", arc)
-		.style("fill", function(d) { console.log(d.data["Year=2010"]); if(d.data["Year=2010"] > 0){console.log(d.data.party);  return colors[d.data.party]}; });
+		.style("fill", function(d) { if(d.data["Year=2010"] > 0){return colors[d.data.party]}; });
 
 		g.append("text")
 		  .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
@@ -116,6 +98,20 @@ function pie(){
 		
 		return d;
 	}
-
+	
+	this.selectRegion = function(value){
+		
+		var index = 0;
+		var temp = [];
+        
+		index = self.data.findIndex(function(x,i){ if(x.key==value){ return i; } });
+		
+		temp = self.data[index];
+		
+		svg.selectAll(".arc").remove();
+		
+		draw(temp.values);
+				
+	}
 	
 }
