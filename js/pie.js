@@ -20,9 +20,9 @@ function pie(){
 	};
 	
 	
-	var width = 960,
-		height = 700,
-		radius = Math.min(width, height) / 4;
+	var height = pieDiv.height(),
+		width = pieDiv.width(),
+		radius = Math.max(width, Math.abs(height)) / 4;
 		
 	var toolTip = d3.select("body").append("div")   
         .attr("class", "tooltip")               
@@ -41,7 +41,7 @@ function pie(){
 		.sort(null)
 		.value(function(d) { return d["Year=2010"]; });
 
-	var svg = d3.select("body").append("svg")
+	var svg = d3.select("#pie1").append("svg")
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
@@ -53,7 +53,7 @@ function pie(){
 		
 		self.data = data;
 		
-		var test = []; // array för att spara alla städer och information i
+		var test = []; // array f?r att spara alla st?der och information i
 		var temp = [];
 		
 	
