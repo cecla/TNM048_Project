@@ -58,7 +58,25 @@ function piePop(){
 
 		g.append("path")
 		.attr("d", arc)
-		.style("fill", function(d) {  return colors(d.data.key); });
+		.style("fill", function(d) {  return colors(d.data.key); })
+		.on("mousemove", function(d,i) {
+				
+				toolTip.transition()
+                    .duration(200)
+                    .style("opacity", 1.0);
+                toolTip.html(d.data.key)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY) + "px");
+                
+
+			})
+			.on("mouseout", function(d,i){
+				
+				toolTip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+				
+			});
 
 		g.append("text")
 		  .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
@@ -66,18 +84,5 @@ function piePop(){
 		  .text(function(d){ return d.data.key; });
     }
 
-    /*function type(d) {
-		if(d["Year=2010"] != "..")
-		{
-			d["Year=2010"] = +d["Year=2010"];
-			
-		}
-		else
-		{
-			d["Year=2010"] = 0;
-			
-		}
-		
-		return d;
-	}*/
+   
 }

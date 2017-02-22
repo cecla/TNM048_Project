@@ -19,7 +19,6 @@ function pie(){
 		"ogiltiga valsedlar":"#A9A9A9"
 	};
 	
-<<<<<<< HEAD
 	var parties = 
 	{
 		"Socialdemokraterna":"S", 
@@ -36,9 +35,9 @@ function pie(){
 	};
 	
 	var width = pieDiv.width(),
-		height = 500,
-		radius = Math.min(width, height) / 4;
-
+		height = pieDiv.height(),
+		radius = Math.max(width, height) / 4 - 10;
+ 
 		
 	var toolTip = d3.select("body").append("div")   
         .attr("class", "tooltip")               
@@ -61,7 +60,7 @@ function pie(){
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
-		.attr("transform", "translate(" + width / 4 + "," + height / 4 + ")");
+		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 	
 	d3.csv("data/Swedish_Election_2010.csv", type, function(data) {
@@ -105,6 +104,10 @@ function pie(){
 
 			})
 			.on("mouseout", function(d,i){
+				
+				toolTip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
 				
 			});
 			

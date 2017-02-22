@@ -109,6 +109,10 @@ function map(data){
 			})
 			.on("mouseout", function(d,i){
 				
+				toolTip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+				
 			})
 			.on("click", function(d){
 				pie1.selectRegion(d.properties.region);
