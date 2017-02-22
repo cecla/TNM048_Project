@@ -19,9 +19,26 @@ function pie(){
 		"ogiltiga valsedlar":"#A9A9A9"
 	};
 	
-	var height = pieDiv.height(),
-		width = pieDiv.width(),
-		radius = Math.max(width, Math.abs(height)) / 4;
+<<<<<<< HEAD
+	var parties = 
+	{
+		"Socialdemokraterna":"S", 
+		"Vänsterpartiet":"V", 
+		"Miljöpartiet":"MP", 
+		"Sverigedemokraterna":"SD", 
+		"Moderaterna":"M", 
+		"Kristdemokraterna":"KD",
+		"Centerpartiet":"C", 
+		"Folkpartiet":"FP", 
+		"övriga partier":"ÖVR", 
+		"ej röstande":"EJ", 
+		"ogiltiga valsedlar":"OG"
+	};
+	
+	var width = pieDiv.width(),
+		height = 500,
+		radius = Math.min(width, height) / 4;
+
 		
 	var toolTip = d3.select("body").append("div")   
         .attr("class", "tooltip")               
@@ -33,8 +50,8 @@ function pie(){
 		.innerRadius(0);
 
 	var labelArc = d3.svg.arc()
-		.outerRadius(radius - 40)
-		.innerRadius(radius - 40);
+		.outerRadius(radius)
+		.innerRadius(radius);
 
 	var pie = d3.layout.pie()
 		.sort(null)
@@ -75,12 +92,27 @@ function pie(){
 
 		g.append("path")
 		.attr("d", arc)
-		.style("fill", function(d) { if(d.data["Year=2010"] > 0){return colors[d.data.party]}; });
+		.style("fill", function(d) { if(d.data["Year=2010"] > 0){return colors[d.data.party]}; })
+		.on("mousemove", function(d,i) {
+				
+				toolTip.transition()
+                    .duration(200)
+                    .style("opacity", 1.0);
+                toolTip.html(d.data.party)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY) + "px");
+                
 
+			})
+			.on("mouseout", function(d,i){
+				
+			});
+			
+			
 		g.append("text")
 		  .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
 		  .attr("dy", ".35em")
-		  .text(function(d) {if(d.data["Year=2010"] > 0){return d.data.party}; });
+		  .text(function(d){ if(d.data["Year=2010"] > 0){return parties[d.data.party]};});
         
     }
 	
