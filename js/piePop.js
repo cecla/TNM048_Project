@@ -23,7 +23,7 @@ function piePop(){
 
 	var pie = d3.layout.pie()
 		.sort(null)
-		.value(function(d) { console.log(d); return d.values; });
+		.value(function(d) { return d.values; });
 
 	var svg = d3.select("#piepop").append("svg")
 		.attr("width", width)
@@ -44,7 +44,6 @@ function piePop(){
 			.rollup(function(v){ return d3.sum(v, function(d){return d["2010"]; })})
 			.entries(data);
 
-		console.log(temp);
 
 		self.data = temp;
 
@@ -101,7 +100,9 @@ function piePop(){
 		
 		svg.selectAll(".arc").remove();
 		
+		
 		draw(temp.values);
+		
 				
 	}
 
