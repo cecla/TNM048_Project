@@ -5,9 +5,9 @@ function piePop(){
 
 	var colors = d3.scale.category20();
 
-	var width = 960,
-		height = 700,
-		radius = Math.min(width, height) / 4;
+	var height = pieDiv.height(),
+		width = pieDiv.width(),
+		radius = Math.min(width, Math.abs(height)) / 4;
 
 	var toolTip = d3.select("body").append("div")   
         .attr("class", "tooltip")               
@@ -36,8 +36,6 @@ function piePop(){
 		
 		self.data = data;
 
-		console.log(data);
-
 		var temp = d3.nest()
 			.key(function(d){
 				return d.region;
@@ -48,7 +46,6 @@ function piePop(){
 			.rollup(function(v){ return d3.sum(v, function(d){return d["2010"]; })})
 			.entries(data);
 
-		console.log(temp);
 		draw(temp[0].values);
 		
     });
@@ -61,12 +58,12 @@ function piePop(){
 
 		g.append("path")
 		.attr("d", arc)
-		.style("fill", function(d) {  console.log(d.data.key); return colors(d.data.key); });
+		.style("fill", function(d) {  return colors(d.data.key); });
 
 		g.append("text")
-		  .attr("transform", function(d) { console.log(d);return "translate(" + labelArc.centroid(d) + ")"; })
+		  .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
 		  .attr("dy", ".35em")
-		  .text(function(d){ console.log(d);return d.data.key; });
+		  .text(function(d){ return d.data.key; });
     }
 
     /*function type(d) {
