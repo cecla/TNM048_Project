@@ -1,5 +1,6 @@
 var map;
 
+var piepop = new piePop();
 var pie1 = new pie();
 
 d3.csv("data/Swedish_Election_2010.csv", function(error, data){

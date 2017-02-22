@@ -16,6 +16,21 @@ function map(data){
 		height = mapDiv.height() - margin.top - margin.bottom,
 		width = mapDiv.width() - margin.right - margin.left;
 
+	var colors = 
+	{
+		"Socialdemokraterna":"#ff2020", 
+		"Vänsterpartiet":"#c80000", 
+		"Miljöpartiet":"#83CF39", 
+		"Sverigedemokraterna":"#DDDD00", 
+		"Moderaterna":"#52bdec", 
+		"Kristdemokraterna":"#000077",
+		"Centerpartiet":"#009933", 
+		"Folkpartiet":"#3399FF", 
+		"övriga partier":"#8B008B", 
+		"ej röstande":"#000000", 
+		"ogiltiga valsedlar":"#A9A9A9"
+	};
+
 	var projection = d3.geo.mercator()
                     .center([20, 62])
                     .scale(800)
@@ -53,18 +68,6 @@ function map(data){
 			regionParties.push(array.values[j]);
 		});
 
-	//count how many parties there is. Only for coloring purpose
-	d3.nest()
-		.key(function(d){ return d.party; })
-		.entries(self.data)
-		.forEach(function(q){
-			numberOfParties.push(q.key);
-		});
-
-	var color = d3.scale.linear().domain([1, numberOfParties.length])
-        .interpolate(d3.interpolateHcl)
-        .range([d3.rgb("#007AFF"), d3.rgb("#FFF500")]);
-
 	d3.json("data/swe_mun.topojson", function(error, swe){
 		if(error) throw error;
 
@@ -76,7 +79,6 @@ function map(data){
 				if(q.region.includes(d.properties.name)){
 					d.properties.region = q.region;
 					d.properties.party = q.party;
-					d.properties.color = color(numberOfParties.indexOf(q.party));
 				}
 			});
 			return d;
@@ -91,7 +93,7 @@ function map(data){
 		region.enter().insert("path")
 			.attr("class", "regions")
 			.attr("d", path)
-			.style("fill", function(d){ return d.properties.color; })
+			.style("fill", function(d){ return colors[d.properties.party]; })
 			.on("mousemove", function(d,i) {
 				var currentRegion = this;
 				
