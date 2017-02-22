@@ -7,15 +7,15 @@ function pie(){
 	var colors = 
 	{
 		"Socialdemokraterna":"#ff2020", 
-		"Vänsterpartiet":"#c80000", 
-		"Miljöpartiet":"#83CF39", 
+		"VÃ¤nsterpartiet":"#c80000", 
+		"MiljÃ¶partiet":"#83CF39", 
 		"Sverigedemokraterna":"#DDDD00", 
 		"Moderaterna":"#52bdec", 
 		"Kristdemokraterna":"#000077",
 		"Centerpartiet":"#009933", 
 		"Folkpartiet":"#3399FF", 
-		"Övriga partier":"#8B008B", 
-		"ej röstande":"#000000", 
+		"Ã¶vriga partier":"#8B008B", 
+		"ej rÃ¶stande":"#000000", 
 		"ogiltiga valsedlar":"#A9A9A9"
 	};
 	
@@ -78,9 +78,6 @@ function pie(){
 		
 		temp = test[index];
 		
-		console.log(temp.values);
-		
-		
         draw(temp.values);
     });
 	
@@ -96,7 +93,7 @@ function pie(){
 
 		g.append("path")
 		.attr("d", arc)
-		.style("fill", function(d) { console.log(d.data["Year=2010"]); if(d.data["Year=2010"] > 0){return colors[d.data.party]}; });
+		.style("fill", function(d) { console.log(d.data["Year=2010"]); if(d.data["Year=2010"] > 0){console.log(d.data.party);  return colors[d.data.party]}; });
 
 		g.append("text")
 		  .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
