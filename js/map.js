@@ -71,7 +71,7 @@ function map(data){
 		regions.map(function(d){
 			regionParties.forEach(function(q){
 				if(q.region.includes(d.properties.name)){
-					//console.log(color(numberOfParties.indexOf(q.party)));
+					d.properties.region = q.region;
 					d.properties.party = q.party;
 					d.properties.color = color(numberOfParties.indexOf(q.party));
 				}
@@ -105,6 +105,9 @@ function map(data){
 			})
 			.on("mouseout", function(d,i){
 				
+			})
+			.on("click", function(d){
+				pie1.selectRegion(d.properties.region);
 			});
 	}
 
