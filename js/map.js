@@ -12,9 +12,9 @@ function map(data){
         .attr("class", "tooltip")               
         .style("opacity", 0);
 
-	var margin = {top:20, right:20, left:20, bottom:20},
-		height = mapDiv.height() - margin.top - margin.bottom,
-		width = mapDiv.width() - margin.right - margin.left;
+	var margin = {top:170, right:20, left:100, bottom:10},
+		height = mapDiv.height() + margin.top - margin.bottom,
+		width = mapDiv.width() - margin.right + margin.left;
 
 	var colors = 
 	{
@@ -33,7 +33,7 @@ function map(data){
 
 	var projection = d3.geo.mercator()
                     .center([20, 62])
-                    .scale(800)
+                    .scale(1400)
                     .translate([width/2,height/2]);
 
 	var svg = d3.select("#map").append("svg")
@@ -117,6 +117,12 @@ function map(data){
 			.on("click", function(d){
 				pie1.selectRegion(d.properties.region);
 				piepop.selectRegion(d.properties.region);
+				svg.selectAll("text").remove();
+				d3.select("svg").append("text")
+				.attr("x", 100 )
+				.attr("y", 50)
+				.style("text-anchor", "middle")
+				.text(d.properties.name);
 			});
 	}
 

@@ -54,7 +54,10 @@ function pie(){
 
 	var pie = d3.layout.pie()
 		.sort(null)
-		.value(function(d) { return d["Year=2010"]; });
+		.value(function(d) { return d["Year=2010"]; })
+		.sort(function(a, b) { return b["Year=2010"] - a["Year=2010"]; });
+		
+	
 
 	var svg = d3.select("#pie1").append("svg")
 		.attr("width", width)
