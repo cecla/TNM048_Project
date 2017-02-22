@@ -3,14 +3,30 @@ function pie(){
 	var self = this;
 	
 	var pieDiv = $("#pie1");
-
 	
-	var colors = d3.scale.category20(); // kommer behövas ändras för att matcha partifärgerna
+	var colors = 
+	{
+		"Socialdemokraterna":"#ff2020", 
+		"Vänsterpartiet":"#c80000", 
+		"Miljöpartiet":"#83CF39", 
+		"Sverigedemokraterna":"#DDDD00", 
+		"Moderaterna":"#52bdec", 
+		"Kristdemokraterna":"#000077",
+		"Centerpartiet":"#009933", 
+		"Folkpartiet":"#3399FF", 
+		"Övriga partier":"#8B008B", 
+		"ej röstande":"#000000", 
+		"ogiltiga valsedlar":"#A9A9A9"
+	};
 	
 	
 	var width = 960,
-		height = 500,
-		radius = Math.min(width, height) / 2;
+		height = 700,
+		radius = Math.min(width, height) / 4;
+		
+	var toolTip = d3.select("body").append("div")   
+        .attr("class", "tooltip")               
+        .style("opacity", 0);
 		
 		
 	var arc = d3.svg.arc()
@@ -33,6 +49,9 @@ function pie(){
 
 	
 	d3.csv("data/Swedish_Election_2010.csv", type, function(data) {
+		
+		
+		self.data = data;
 		
 		var test = []; // array för att spara alla städer och information i
 		var temp = [];
@@ -61,7 +80,6 @@ function pie(){
 		
 		console.log(temp.values);
 		
-		self.data = data;
 		
         draw(temp.values);
     });
@@ -78,7 +96,7 @@ function pie(){
 
 		g.append("path")
 		.attr("d", arc)
-		.style("fill", function(d) { console.log(d.data["Year=2010"]); if(d.data["Year=2010"] > 0){return colors(d.data.party)}; });
+		.style("fill", function(d) { console.log(d.data["Year=2010"]); if(d.data["Year=2010"] > 0){return colors[d.data.party]}; });
 
 		g.append("text")
 		  .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
