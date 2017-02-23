@@ -115,8 +115,11 @@ function map(data){
 				
 			})
 			.on("click", function(d){
+				
 				pie1.selectRegion(d.properties.region);
 				piepop.selectRegion(d.properties.region);
+				bar.selectRegion(d.properties.region);
+
 				svg.selectAll("text").remove();
 				d3.select("svg").append("text")
 				.attr("x", 100 )

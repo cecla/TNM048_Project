@@ -34,7 +34,7 @@ function barchart(){
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient("bottom")
-		.tickFormat(function(d,i){ return (i%3 == 1) ? temp[i].party : null;});
+		.tickFormat(function(d,i){ console.log(d); return (i%3 == 1) ? temp[i].party : null; });
 
 	var yAxis = d3.svg.axis()
 		.scale(y)
@@ -43,13 +43,13 @@ function barchart(){
 
 	var svg = d3.select("#bar").append("svg")
 		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
-		.append("g")
+		.attr("height", height + margin.top + margin.bottom);
+	
+	var g = svg.append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	var dataTemp = [];
 	var dataSort = [];
-	var temp = [];
 
 	d3.csv("data/Swedish_Election_2002.csv", function(error, data){
 		dataTemp.push(data);
@@ -67,46 +67,55 @@ function barchart(){
 					dataSort.push(t);
 				});
 
+				var t = [];
+
 				dataSort.forEach(function(d,i){
-					index = dataSort[i].findIndex(function(x,i){ if(x.key=="2523 Gällivare"){ return i; } });
+					index = dataSort[i].findIndex(function(x,i){ if(x.key=="2161 Ljusdal"){ return i; } });
 					
 					dataSort[i][index].values.forEach(function(d){
-						temp.push(d);
+						t.push(d);
 					});
 				});
 
-				draw(temp);
+				console.log(t);
+
+				x.domain(t.map(function(d){ return d.party+Object.keys(d)[2]; }));
+				y.domain([0, d3.max(t, function(d){ return (d[Object.keys(d)[2]] != "..") ? parseFloat(d[Object.keys(d)[2]]): 0; })]);
+
+				g.append("g")
+						.attr("class","x axis")
+						.attr("transform","translate(0," + height + ")")
+						.call(xAxis)
+						.selectAll("text")
+						.style("text-anchor","end")
+						.attr("dx","-0.8em")
+						.attr("dy","-0.55em")
+						.attr("transform","rotate(-75)");
+
+
+				console.log("hej");
+
+				g.append("g")
+					.attr("class","y axis")
+					.call(yAxis)
+					.append("text")
+					.attr("transform","rotate(-90)")
+					.attr("y",6)
+					.attr("dy","-0.71em")
+					.style("text-anchor","end");
 
 			});	
 		});
 	});
 
 	function draw(region){
+		
 		region.sort(function(a,b){ return a.party > b.party; });
 
 		x.domain(region.map(function(d){ return d.party+Object.keys(d)[2]; }));
 		y.domain([0, d3.max(region, function(d){ return (d[Object.keys(d)[2]] != "..") ? parseFloat(d[Object.keys(d)[2]]): 0; })]);
 
-		svg.append("g")
-			.attr("class","x axis")
-			.attr("transform","translate(0," + height + ")")
-			.call(xAxis)
-			.selectAll("text")
-			.style("text-anchor","end")
-			.attr("dx","-0.8em")
-			.attr("dy","-0.55em")
-			.attr("transform","rotate(-75)");
-
-		svg.append("g")
-			.attr("class","y axis")
-			.call(yAxis);
-			//.append("text")
-			//.attr("transform","rotate(-90)")
-			//.attr("y",6)
-			//.attr("dy","-0.71em")
-			//.style("text-anchor","end");
-
-		svg.selectAll("bar")
+		g.selectAll(".bar")
 			.data(region)
 			.enter().append("rect")
 			.style("fill",function(d){ return colors[d.party]; })
@@ -127,7 +136,28 @@ function barchart(){
 			});
 	}
 
-	
+	this.selectRegion = function(value){
+		var index = 0;
+		var temp = [];
+
+		console.log(value);
+        
+		//index = self.data.findIndex(function(x,i){ if(x.key==value){ return i; } });
+
+		dataSort.forEach(function(d,i){
+			index = dataSort[i].findIndex(function(x,i){ if(x.key==value){ return i; } });
+			
+			dataSort[i][index].values.forEach(function(d){
+				temp.push(d);
+			});
+		});
+		
+		svg.selectAll(".bar").remove();
+
+		console.log(temp);
+		
+		draw(temp);
+	}
 
 	
 }
