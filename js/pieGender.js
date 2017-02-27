@@ -1,7 +1,7 @@
-function piePop(){
+function pieGender(data){
 	var self = this;
 	
-	var pieDiv = $("#piepop");
+	var pieDiv = $("#piegender");
 
 	var colors = d3.scale.category20();
 
@@ -25,13 +25,13 @@ function piePop(){
 		.sort(null)
 		.value(function(d) { return d.values; });
 
-	var svg = d3.select("#piepop").append("svg")
+	var svg = d3.select("#piegender").append("svg")
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
 		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-	d3.csv("data/Swedish_Population_Statistics.csv", function(data) {
+	
 		
 		
 		var temp = d3.nest()
@@ -39,7 +39,7 @@ function piePop(){
 				return d.region;
 			})
 			.key(function(d){
-				return d["marital status"];
+				return d["sex"];
 			})
 			.rollup(function(v){ return d3.sum(v, function(d){return d["2010"]; })})
 			.entries(data);
@@ -48,7 +48,6 @@ function piePop(){
 		self.data = temp;
 
 		
-    });
 
     function draw(population){
     	
@@ -87,6 +86,7 @@ function piePop(){
 
 
 	this.selectRegion = function(value){
+		//console.log(value);
 		
 		var index = 0;
 		var temp = [];

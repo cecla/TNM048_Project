@@ -1,4 +1,4 @@
-function pie(){
+function pie(data){
 	
 	var self = this;
 	
@@ -65,8 +65,7 @@ function pie(){
 		.append("g")
 		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-	
-	d3.csv("data/Swedish_Election_2010.csv", type, function(data) {
+
 
 		var test = []; // array f?r att spara alla st?der och information i
 
@@ -80,7 +79,6 @@ function pie(){
 		
 		self.data = test;
 
-    });
 	
 
 	

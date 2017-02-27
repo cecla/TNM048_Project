@@ -19,7 +19,6 @@ function barchart(data){
 		y = d3.scale.linear().range([height,0]);
 
 	var temp = findParty("2161 Ljusdal");
-	console.log(temp);
 
 	temp.sort(function(a,b){ return a.party > b.party; });
 	x.domain(temp.map(function(d){ return d.party+Object.keys(d)[2]; }));
@@ -28,7 +27,7 @@ function barchart(data){
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient("bottom")
-		.tickFormat(function(d,i){ console.log(d); return (i%3 == 1) ? parties[temp[i].party] : null; });
+		.tickFormat(function(d,i){return (i%3 == 1) ? parties[temp[i].party] : null; });
 
 	var yAxis = d3.svg.axis()
 		.scale(y)
@@ -105,7 +104,6 @@ function barchart(data){
 				return x(d.party+Object.keys(d)[2]);
 			})
 			.attr("y", function(d){
-				//console.log(height - y(d[Object.keys(d)[2]]));
 				return y(d[Object.keys(d)[2]]);
 			})
 			.attr("width", x.rangeBand())

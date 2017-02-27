@@ -119,6 +119,7 @@ function map(data){
 				pie1.selectRegion(d.properties.region);
 				piepop.selectRegion(d.properties.region);
 				bar.selectRegion(d.properties.region);
+				piegender.selectRegion(d.properties.region);
 
 				svg.selectAll("text").remove();
 				d3.select("svg").append("text")

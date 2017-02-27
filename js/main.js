@@ -1,11 +1,8 @@
-var map;
+var map, pie1,piegender,piepop;
 
-var piepop = new piePop();
-var pie1 = new pie();
 
-/*d3.csv("data/Swedish_Election_2010.csv", function(error, data){
-	
-});*/
+
+
 
 var dataTemp = [];
 var dataSort = [];
@@ -28,8 +25,18 @@ d3.csv("data/Swedish_Election_2002.csv", type, function(error, data){
 			});
 
 			bar = new barchart(dataSort);
+			pie1 = new pie(data2);
 		});	
 	});
+});
+
+d3.csv("data/Swedish_Population_Statistics.csv", function(data) {
+	
+	
+	piegender = new pieGender(data);
+	piepop = new piePop(data);
+	
+	
 });
 
 function type(d) {
