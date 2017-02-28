@@ -118,7 +118,7 @@ function map(data){
 				
 				pie1.selectRegion(d.properties.region);
 				piepop.selectRegion(d.properties.region);
-				bar.selectRegion(d.properties.region);
+				bar.selectRegion(d.properties.region, d.properties.name);
 				piegender.selectRegion(d.properties.region);
 
 				svg.selectAll("text").remove();

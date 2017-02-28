@@ -3,15 +3,13 @@ function barchart(data){
 	var self = this;
 	self.data = data;
 
-	//console.log(self.data);
-
 	var toolTip = d3.select("body").append("div")   
         .attr("class", "tooltip")               
         .style("opacity", 0);
 
     var barDiv = $("#bar");
 
-    var margin = {top: 10, right: 20, bottom: 60, left: 30},
+    var margin = {top: 30, right: 20, bottom: 60, left: 30},
     	height = barDiv.height() - margin.top - margin.bottom,
 		width = barDiv.width() - margin.left - margin.right;
 
@@ -27,7 +25,7 @@ function barchart(data){
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient("bottom")
-		.tickFormat(function(d,i){return (i%3 == 1) ? parties[temp[i].party] : null; });
+		.tickFormat(function(d,i){ return (i%3 == 1) ? parties[temp[i].party] : null; });
 
 	var yAxis = d3.svg.axis()
 		.scale(y)
@@ -90,6 +88,7 @@ function barchart(data){
 
 
 	function draw(region){
+		console.log();
 		region.sort(function(a,b){ return a.party > b.party; });
 
 		x.domain(region.map(function(d){ return d.party+Object.keys(d)[2]; }));
@@ -115,7 +114,7 @@ function barchart(data){
 				toolTip.transition()
                     .duration(200)
                     .style("opacity", 1.0);
-                toolTip.html(d.party + "<br>" + d[Object.keys(d)[2]])
+                toolTip.html(d.party + "<br>" + d[Object.keys(d)[2]] + " " + Object.keys(d)[2])
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY) + "px");
 			})
@@ -126,16 +125,32 @@ function barchart(data){
                     .style("opacity", 0);
 				
 			});
+			
+			
+			
+		g.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+		.attr("id", "title")
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Election results for " + self.name + " in the years 2002, 2006 and 2010");
 	}
 
-	this.selectRegion = function(value){
+	this.selectRegion = function(value, name){
 		svg.selectAll("rect").remove();
-
+		g.select("#title").remove();
+		
 		g.select(".x.axis").call(xAxis);
 		g.select(".y.axis").call(yAxis);
+		
+		self.name = name;
 
 		draw(findParty(value));
 	}
+	
+	
 
 	function findParty(key){
 		var t = [];

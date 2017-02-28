@@ -1,4 +1,4 @@
-function piePop(){
+function piePop(data){
 	var self = this;
 	
 	var pieDiv = $("#piepop");
@@ -7,7 +7,7 @@ function piePop(){
 
 	var width = pieDiv.width(),
 		height = pieDiv.height(),
-		radius = Math.max(width, height) / 4 - 10;
+		radius = Math.max(width, height) / 6 - 10;
 
 	var toolTip = d3.select("body").append("div")   
         .attr("class", "tooltip")               
@@ -30,25 +30,22 @@ function piePop(){
 		.attr("height", height)
 		.append("g")
 		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-	d3.csv("data/Swedish_Population_Statistics.csv", function(data) {
+	
+	
 		
-		
-		var temp = d3.nest()
-			.key(function(d){
-				return d.region;
-			})
-			.key(function(d){
-				return d["marital status"];
-			})
-			.rollup(function(v){ return d3.sum(v, function(d){return d["2010"]; })})
-			.entries(data);
+	var temp = d3.nest()
+		.key(function(d){
+			return d.region;
+		})
+		.key(function(d){
+			return d["marital status"];
+		})
+		.rollup(function(v){ return d3.sum(v, function(d){return d["2010"]; })})
+		.entries(data);
 
 
 		self.data = temp;
 
-		
-    });
 
     function draw(population){
     	
@@ -56,6 +53,13 @@ function piePop(){
 		.data(pie(population))
 		.enter().append("g")
 		 .attr("class", "arc");
+		 
+		 const g2 = svg.selectAll('.arc2')
+			.data(pie(population))
+			.enter()
+			.append('g')
+			.attr('class', 'arc');
+		
 
 		g.append("path")
 		.attr("d", arc)
@@ -79,7 +83,7 @@ function piePop(){
 				
 			});
 
-		g.append("text")
+		g2.append("text")
 		  .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
 		  .attr("dy", ".35em")
 		  .text(function(d){ return d.data.key; });

@@ -1,9 +1,5 @@
 var map, pie1,piegender,piepop;
 
-
-
-
-
 var dataTemp = [];
 var dataSort = [];
 

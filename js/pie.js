@@ -36,7 +36,7 @@ function pie(data){
 	
 	var width = pieDiv.width(),
 		height = pieDiv.height(),
-		radius = Math.max(width, height) / 4 - 10;
+		radius = Math.max(width, height) / 6 - 10;
  
 		
 	var toolTip = d3.select("body").append("div")   
@@ -49,7 +49,7 @@ function pie(data){
 		.innerRadius(0);
 
 	var labelArc = d3.svg.arc()
-		.outerRadius(radius)
+		.outerRadius(radius + 18)
 		.innerRadius(radius);
 
 	var pie = d3.layout.pie()
@@ -119,21 +119,6 @@ function pie(data){
 		  .text(function(d){ if(d.data["Year=2010"] > 0){return parties[d.data.party]};});
         
     }
-	
-	function type(d) {
-		if(d["Year=2010"] != "..")
-		{
-			d["Year=2010"] = +d["Year=2010"];
-			
-		}
-		else
-		{
-			d["Year=2010"] = 0;
-			
-		}
-		
-		return d;
-	}
 	
 	this.selectRegion = function(value){
 		

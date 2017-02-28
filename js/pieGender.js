@@ -7,7 +7,7 @@ function pieGender(data){
 
 	var width = pieDiv.width(),
 		height = pieDiv.height(),
-		radius = Math.max(width, height) / 4 - 10;
+		radius = Math.max(width, height) / 6 - 10;
 
 	var toolTip = d3.select("body").append("div")   
         .attr("class", "tooltip")               
@@ -31,21 +31,18 @@ function pieGender(data){
 		.append("g")
 		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-	
-		
-		
-		var temp = d3.nest()
-			.key(function(d){
-				return d.region;
-			})
-			.key(function(d){
-				return d["sex"];
-			})
-			.rollup(function(v){ return d3.sum(v, function(d){return d["2010"]; })})
-			.entries(data);
+	var temp = d3.nest()
+		.key(function(d){
+			return d.region;
+		})
+		.key(function(d){
+			return d["sex"];
+		})
+		.rollup(function(v){ return d3.sum(v, function(d){return d["2010"]; })})
+		.entries(data);
 
 
-		self.data = temp;
+	self.data = temp;
 
 		
 
