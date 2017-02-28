@@ -22,17 +22,16 @@ function barchart(data){
 
 	temp.sort(function(a,b){ return a.party > b.party; });
 	x.domain(temp.map(function(d){ return d.party+Object.keys(d)[2]; }));
-	y.domain([0, 60]);
+	y.domain([0, d3.max(temp, function(d){ return parseFloat(d[Object.keys(d)[2]]); })]);
 
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient("bottom")
-		.tickFormat(function(d,i){return (i%3 == 1) ? parties[temp[i].party] : null; });
+		.tickFormat(function(d,i){ return (i%3 == 1) ? parties[temp[i].party] : null; });
 
 	var yAxis = d3.svg.axis()
 		.scale(y)
-		.orient("left")
-		.ticks(10);
+		.orient("left");
 
 	var colors = 
 	{
@@ -65,8 +64,8 @@ function barchart(data){
 	};
 	
 	var svg = d3.select("#bar").append("svg")
-		.attr("width", barDiv.width())
-		.attr("height", barDiv.height());
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom);
 
 	var g = svg.append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -84,7 +83,7 @@ function barchart(data){
 		.call(yAxis)
 		.append("text")
 		.attr("transform","rotate(-90)")
-		.attr("y",6)
+		.attr("y",-6)
 		.attr("dy","0.71em")
 		.style("text-anchor","end");
 
@@ -95,6 +94,9 @@ function barchart(data){
 		x.domain(region.map(function(d){ return d.party+Object.keys(d)[2]; }));
 		y.domain([0, d3.max(region, function(d){ return parseFloat(d[Object.keys(d)[2]]); })]);
 
+		g.select(".x.axis").call(xAxis);
+		g.select(".y.axis").call(yAxis);
+
 		g.selectAll("rect")
 			.data(region)
 			.enter()
@@ -104,11 +106,11 @@ function barchart(data){
 				return x(d.party+Object.keys(d)[2]);
 			})
 			.attr("y", function(d){
-				return y(d[Object.keys(d)[2]]);
+				return y(parseFloat(d[Object.keys(d)[2]]));
 			})
 			.attr("width", x.rangeBand())
 			.attr("height", function(d){
-				return height - y(d[Object.keys(d)[2]]);
+				return height - y(parseFloat(d[Object.keys(d)[2]]));
 			})
 			.on("mousemove", function(d,i) {
 				var currentRegion = this;
@@ -130,9 +132,6 @@ function barchart(data){
 
 	this.selectRegion = function(value){
 		svg.selectAll("rect").remove();
-
-		g.select(".x.axis").call(xAxis);
-		g.select(".y.axis").call(yAxis);
 
 		draw(findParty(value));
 	}
