@@ -23,3 +23,7 @@ div.tooltip {
 path {
     stroke: black !important;
 }
+
+path:hover {
+    opacity: 0.5 !important;
+}
