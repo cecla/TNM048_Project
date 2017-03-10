@@ -1,3 +1,4 @@
+// http://bl.ocks.org/d3noob/8952219, skelleton for bar chart
 function barchart(data){
 
 	var self = this;
@@ -16,16 +17,17 @@ function barchart(data){
 	var x = d3.scale.ordinal().rangeRoundBands([0,width], 0.05),
 		y = d3.scale.linear().range([height,0]);
 
+	// A temp draw, creating axis
 	var temp = findParty("2161 Ljusdal");
-
 	temp.sort(function(a,b){ return a.party > b.party; });
+
 	x.domain(temp.map(function(d){ return d.party+Object.keys(d)[2]; }));
 	y.domain([0, d3.max(temp, function(d){ return parseFloat(d[Object.keys(d)[2]]); })]);
 
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient("bottom")
-		.tickFormat(function(d,i){ return (i%3 == 1) ? parties[temp[i].party] : null; });
+		.tickFormat(function(d,i){ return (i%3 == 1) ? parties[temp[i].party] : null; }); // only display the name one for each region
 
 	var yAxis = d3.svg.axis()
 		.scale(y)
@@ -141,8 +143,8 @@ function barchart(data){
 	}
 
 	this.selectRegion = function(value, name){
+		
 		svg.selectAll("rect").remove();
-
 		g.select("#title").remove();
 		
 		g.select(".x.axis").call(xAxis);
@@ -150,11 +152,8 @@ function barchart(data){
 		
 		self.name = name;
 
-
 		draw(findParty(value));
 	}
-	
-	
 
 	function findParty(key){
 		var t = [];

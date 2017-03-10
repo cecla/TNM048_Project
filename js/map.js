@@ -116,6 +116,7 @@ function map(data){
 			})
 			.on("click", function(d){
 				
+				// redraw charts
 				pie1.selectRegion(d.properties.region);
 				piepop.selectRegion(d.properties.region);
 				bar.selectRegion(d.properties.region, d.properties.name);

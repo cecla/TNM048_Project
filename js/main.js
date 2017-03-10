@@ -3,6 +3,7 @@ var map, pie1,piegender,piepop;
 var dataTemp = [];
 var dataSort = [];
 
+//load data
 d3.csv("data/Swedish_Election_2002.csv", type, function(error, data){
 	dataTemp.push(data);
 	
@@ -13,6 +14,7 @@ d3.csv("data/Swedish_Election_2002.csv", type, function(error, data){
 			dataTemp.push(data2);
 			map = new map(data2);
 
+			// put all objects in one array
 			dataTemp.forEach(function(d){
 				var t = d3.nest()
 					.key(function(v){ return v.region; })
@@ -35,6 +37,7 @@ d3.csv("data/Swedish_Population_Statistics.csv", function(data) {
 	
 });
 
+// modify data
 function type(d) {
 
 	if(d[Object.keys(d)[2]] != "..")
